@@ -3,11 +3,12 @@ on:
   pull_request:
     branches: [ "Develop" ]
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
     
-  workflow_call:
-    secrets:
-      TOKEN:
-        required: true
+  #workflow_call:
+    #secrets:
+      #TOKEN:
+        #required: true
   
 jobs:
   build:
@@ -46,15 +47,15 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"projectdemo12key_beskarproject" /o:"projectdemo12key" /d:sonar.token="${{ secrets.TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"projectdemo12key_projectdemo" /o:"projectdemo12key" /d:sonar.token="${{ secrets.TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.TOKEN }}"
       - name: Check Quality Gate
         run: |
-          $response  = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=projectdemo12key_beskarproject"          
+          $response  = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=projectdemo12key_projectdemo"          
           Write-Host "Response: $response"
           if ($response.projectStatus.status -ne "OK") {
             Write-Host "Quality Gate failed. Stopping the workflow."
