@@ -2,4 +2,4 @@
 
 test
 
-[![Build and deploy DemoWebApi](https://github.com/luistupia/DemoGithubAction/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/luistupia/DemoGithubAction/actions/workflows/main.yml)
+[![Build and deploy beskarweb](https://github.com/luistupia/BeskarDemo1/actions/workflows/main.yml/badge.svg)](https://github.com/luistupia/BeskarDemo1/actions/workflows/main.yml)
