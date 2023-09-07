@@ -24,7 +24,7 @@ jobs:
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  build:
+  build-deploy-dev:
     runs-on: ${{matrix.os}}
     environment: Dev
     strategy:
@@ -66,4 +66,26 @@ jobs:
         with:
           name: .net-app
           path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+  deploy-dev:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build-deploy-dev
+    environment:
+      name: 'Cert'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+  
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: /home/runner/work/BerkarDemo1/BerkarDemo1
     
