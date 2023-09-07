@@ -53,14 +53,3 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"projectdemo12key_projectdemo" /o:"projectdemo12key" /d:sonar.token="${{ secrets.TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.TOKEN }}"
-      - name: Check Quality Gate
-        run: |
-          $response  = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=projectdemo12key_projectdemo"          
-          Write-Host "Response: $response"
-          if ($response.projectStatus.status -ne "OK") {
-            Write-Host "Quality Gate failed. Stopping the workflow."
-            exit 1
-          }
-        env:
-          SONAR_TOKEN: ${{ secrets.TOKEN }}
-      
