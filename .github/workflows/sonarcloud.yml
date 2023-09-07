@@ -1,7 +1,7 @@
 name: SonarCloud
 on:  
   pull_request:
-    branches: [ "Develop" ]
+    branches: [ "master" ]
     types: [opened, synchronize, reopened]
   workflow_dispatch:
     
