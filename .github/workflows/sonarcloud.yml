@@ -50,9 +50,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"projectdemo12key_projectdemo" /o:"projectdemo12key" /d:sonar.token="${{ secrets.TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"projectdemo12key_projectdemo" /o:"projectdemo12key" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
       - name: Check Quality Gate
         run: |
           $response  = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=projectdemo12key_projectdemo"          
