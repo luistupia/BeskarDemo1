@@ -88,7 +88,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_DEV }}
           publish-profile: ${{ secrets.AZURE_PROFILE }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: /home/runner/work/BeskarDemo1/BeskarDemo1
           
   deploy-Cert:
     permissions:
