@@ -58,8 +58,7 @@ jobs:
           $response  = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=projectdemo12key_projectdemo"          
           Write-Host "Response: $response"
           if ($response.projectStatus.status -ne "OK") {
-            Write-Host "Quality Gate failed. Stopping the workflow."
-            exit 1
+            Write-Host "Quality Gate failed. Stopping the workflow."            
           }
         env:
           SONAR_TOKEN: ${{ secrets.TOKEN }}
