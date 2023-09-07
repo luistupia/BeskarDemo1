@@ -19,10 +19,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-sonarcube:
-    uses: ./.github/workflows/sonarcloud.yml
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #build-sonarcube:
+    #uses: ./.github/workflows/sonarcloud.yml
+    #secrets:
+      #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build-deploy-dev:
     runs-on: ${{matrix.os}}
@@ -31,7 +31,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
 
-    needs: build-sonarcube
+    #needs: build-sonarcube
     
     steps:
       - uses: actions/checkout@v3   
@@ -66,7 +66,21 @@ jobs:
         with:
           name: .net-app
           path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
-  deploy-dev:
+          
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+  
+      - name: Deploy Dev
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PROFILE }}
+          package: /home/runner/work/BeskarDemo1/BeskarDemo1/publish
+          
+  deploy-Cert:
     permissions:
       contents: none
     runs-on: ubuntu-latest
@@ -87,5 +101,5 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PROFILE }}
-          package: /home/runner/work/BerkarDemo1/BerkarDemo1
+          package: /home/runner/work/BeskarDemo1/BeskarDemo1/publish
     
