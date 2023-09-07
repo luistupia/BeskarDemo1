@@ -94,7 +94,7 @@ jobs:
     permissions:
       contents: none
     runs-on: ubuntu-latest
-    needs: build-dev
+    needs: deploy-dev
     environment:
       name: 'Cert'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -111,5 +111,5 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PROFILE }}
-          package: /home/runner/work/BeskarDemo1/BeskarDemo1/publish
+          package: /home/runner/work/BeskarDemo1/BeskarDemo1
     
