@@ -1,0 +1,30 @@
+﻿@WebApi_HostAddress = https://localhost:7185
+@Codigo = ALFKI
+
+
+GET {{WebApi_HostAddress}}/api/v1/customer
+
+###
+
+GET {{WebApi_HostAddress}}/api/v1/customer/{{Codigo}}
+
+###
+
+POST {{WebApi_HostAddress}}/api/v1/customer/{{Codigo}}/ExportCustomerOrderHist
+
+###
+
+POST {{WebApi_HostAddress}}/api/v1/customer
+Content-Type: application/json
+
+{
+  "customerID": "ABCDE",
+  "companyName": "Demo 2",
+  "contactName": "Demo 2",
+  "contactTitle": "Demo 2",
+  "address": "Lima",
+  "city": "Lima",
+  "region": "Lima"
+}
+
+###

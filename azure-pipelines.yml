@@ -1,0 +1,25 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+
+steps:
+- powershell: Write-host "BUILD $env:Build.SourceBranch - $env:Build.SourceBranchName"
+
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'SonarQubeService'
+    scannerMode: 'MSBuild'
+    projectKey: 'BeskarProjectKey'
+    projectName: 'BeskarProject'
+
+- script: dotnet build $(Build.SourceDirectory)/DemoWebApi.sln --configuration $(buildConfiguration)    
+
+- task: SonarQubeAnalyze@5
+  inputs:
+    jdkversion: 'JAVA_HOME_11_X64'
+
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
